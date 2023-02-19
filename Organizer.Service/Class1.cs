@@ -1,4 +1,4 @@
-﻿namespace Organizer.Data
+﻿namespace Organizer.Service
 {
     public class Class1
     {

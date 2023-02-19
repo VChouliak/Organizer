@@ -1,10 +1,4 @@
-﻿using Organizer.UI.Data;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Organizer.Service.Data;
 using System.Windows;
 
 namespace Organizer.UI
@@ -16,7 +10,8 @@ namespace Organizer.UI
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var mainWindow = new MainWindow(new ViewModel.MainViewModel(new FriendDataService()));
+            //TODO: Refactor
+            var mainWindow = new MainWindow(new ViewModel.MainViewModel(new FriendsAsyncDataService()));
             mainWindow.Show();
         }
     }
