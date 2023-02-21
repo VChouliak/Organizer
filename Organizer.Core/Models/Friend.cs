@@ -2,9 +2,8 @@
 
 namespace Organizer.Core.Models
 {
-    public class Friend
-    {
-        public int Id { get; set; }
+    public class Friend : BaseModel
+    {        
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
