@@ -1,8 +1,8 @@
 ﻿using Organizer.Core.Interfaces.Specification;
 
-namespace Organizer.Core.Interfaces.Service
+namespace Organizer.Core.Interfaces.Data
 {
-    public interface IBaseAsyncDataService<T>
+    public interface IBaseAsyncRepository<T>
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetAllAsync(ISpecification<T> specification);
@@ -13,6 +13,7 @@ namespace Organizer.Core.Interfaces.Service
         Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
         Task<IEnumerable<T>> UpdateRangeAsync(IEnumerable<T> entities);
         Task<IEnumerable<T>> DeleteRangeAsync(IEnumerable<T> entities);
+       
 
     }
 }

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.Core", "Organizer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.Settings", "Organizer.Settings\Organizer.Settings.csproj", "{C7FE3A19-1457-4963-A857-D3098EB07CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.Service", "Organizer.Service\Organizer.Service.csproj", "{9152E512-7293-44B4-9D71-CCC406C4AAFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.Service", "Organizer.Service\Organizer.Service.csproj", "{9152E512-7293-44B4-9D71-CCC406C4AAFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

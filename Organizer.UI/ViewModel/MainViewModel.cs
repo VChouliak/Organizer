@@ -1,5 +1,6 @@
 ﻿using Organizer.Core.Interfaces.Service;
 using Organizer.Core.Models;
+using Organizer.Core.Specifications;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -19,12 +20,11 @@ namespace Organizer.UI.ViewModel
         public async Task LoadAsync()
         {
             Friends.Clear();
-            var friends = await _friendDataService.GetAllAsync();
+            var friends = await _friendDataService.GetAllAsync(new FriendsOrderedByFirstNameSpecification());
             
             foreach ( var friend in friends)
             {
                 Friends.Add( friend );
-
             }
                 
                 
