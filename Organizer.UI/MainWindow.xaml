@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI"
+        xmlns:view="clr-namespace:Organizer.UI.View"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -20,25 +21,9 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Friends}" 
-                  Grid.Column="0"
-                  SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
-                  DisplayMemberPath="FirstName"/>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Firstname" Margin="10 10 10 0"/>
-            <TextBox Grid.Row="1" Text="{Binding SelectedFriend.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
-            <Label Grid.Row="2" Content="Lastname" Margin="10 0 10 0"/>
-            <TextBox Grid.Row="3" Text="{Binding SelectedFriend.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
-            <Label Grid.Row="4" Content="Email" Margin="10 0 10 0"/>
-            <TextBox Grid.Row="5" Text="{Binding SelectedFriend.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
+        <view:FriendDetailView Grid.Column="1" DataContext="{Binding FriendDetailsViewModel}"/>
+        <Grid>
 
         </Grid>
     </Grid>

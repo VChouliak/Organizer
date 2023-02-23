@@ -1,7 +1,7 @@
 ﻿using Organizer.Core.Interfaces.Specification;
 
 namespace Organizer.Core.Interfaces.Data
-{
+{//TODO: Split interface
     public interface IBaseAsyncRepository<T>
     {
         Task<IEnumerable<T>> GetAllAsync();

@@ -1,5 +1,7 @@
-﻿using Organizer.Service.Data;
-using System.Windows;
+﻿using System.Windows;
+using Organizer.Service.Data;
+using Organizer.Service.View;
+using Organizer.UI.ViewModel;
 
 namespace Organizer.UI
 {
@@ -11,7 +13,8 @@ namespace Organizer.UI
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //TODO: Refactor
-            var mainWindow = new MainWindow(new ViewModel.MainViewModel(new FriendsAsyncDataService()));
+            var mainWindow = new MainWindow(
+                new MainViewModel(new NavigationViewModel(new AsyncFriendLookupService(new FriendsAsyncDataService())), new FriendDetailsViewModel(new FriendsAsyncDataService())));
             mainWindow.Show();
         }
     }

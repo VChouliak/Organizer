@@ -2,6 +2,7 @@
 
 namespace Organizer.Core.Interfaces.Service
 {
+    //TODO: Split Interface
     public interface IBaseAsyncDataService<T>
     {
         Task<IEnumerable<T>> GetAllAsync();

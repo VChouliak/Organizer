@@ -1,44 +1,23 @@
-﻿using Organizer.Core.Interfaces.Service;
-using Organizer.Core.Models;
-using Organizer.Core.Specifications;
-using System.Collections.ObjectModel;
+﻿using Organizer.Core.Interfaces.ViewModels;
+using Organizer.Core.ViewModel;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private IFriendAsyncDataService _friendDataService;
-        private Friend _selectedFriend;      
-
-        public MainViewModel(IFriendAsyncDataService friendDataService)
+        public MainViewModel(INavigationViewModel navigationViewModel, IDetailsViewModel detailsViewModel)
         {
-            Friends = new ObservableCollection<Friend>();
-            _friendDataService = friendDataService;
+            NavigationViewModel = navigationViewModel;
+            DetailsViewModel = detailsViewModel;
         }
 
         public async Task LoadAsync()
         {
-            Friends.Clear();
-            var friends = await _friendDataService.GetAllAsync(new FriendsOrderedByFirstNameSpecification());
-            
-            foreach ( var friend in friends)
-            {
-                Friends.Add( friend );
-            }
-                
-                
-        }
-        public ObservableCollection<Friend> Friends { get; set; }
-        public Friend SelectedFriend
-        {
-            get { return _selectedFriend; }
-            set
-            {
-                _selectedFriend = value;
-                OnPropertyChanged();
-            }
+            await NavigationViewModel.LoadAsync();
         }
 
+        public INavigationViewModel NavigationViewModel { get; }
+        public IDetailsViewModel DetailsViewModel { get; }
     }
 }
