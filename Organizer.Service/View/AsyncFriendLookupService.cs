@@ -1,5 +1,4 @@
 ﻿using Organizer.Core.Interfaces.Service;
-using Organizer.Core.Interfaces.Specification;
 using Organizer.Core.Models;
 using Organizer.Core.Specifications;
 using Organizer.Service.Data;

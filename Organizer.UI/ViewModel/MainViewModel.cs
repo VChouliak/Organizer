@@ -9,7 +9,7 @@ namespace Organizer.UI.ViewModel
         public MainViewModel(INavigationViewModel navigationViewModel, IDetailsViewModel detailsViewModel)
         {
             NavigationViewModel = navigationViewModel;
-            DetailsViewModel = detailsViewModel;
+            FriendDetailsViewModel = detailsViewModel;
         }
 
         public async Task LoadAsync()
@@ -18,6 +18,6 @@ namespace Organizer.UI.ViewModel
         }
 
         public INavigationViewModel NavigationViewModel { get; }
-        public IDetailsViewModel DetailsViewModel { get; }
+        public IDetailsViewModel FriendDetailsViewModel { get; }
     }
 }
