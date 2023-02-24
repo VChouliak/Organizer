@@ -1,7 +1,4 @@
-﻿using Organizer.UI.Event;
-using System;
-using System.ComponentModel;
-using System.Reflection;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Organizer.UI.ViewModel
