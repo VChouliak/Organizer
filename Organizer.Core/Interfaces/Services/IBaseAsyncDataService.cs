@@ -14,6 +14,7 @@ namespace Organizer.Core.Interfaces.Service
         Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
         Task<IEnumerable<T>> UpdateRangeAsync(IEnumerable<T> entities);
         Task<IEnumerable<T>> DeleteRangeAsync(IEnumerable<T> entities);
+        Task<int> SaveAllChangesAsync();
 
     }
 }

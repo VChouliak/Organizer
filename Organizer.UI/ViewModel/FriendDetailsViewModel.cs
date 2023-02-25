@@ -1,10 +1,14 @@
-﻿using Organizer.Core.Interfaces.Events.Aggregator;
+﻿using Org.BouncyCastle.Asn1.Cmp;
+using Organizer.Core.Interfaces.Events.Aggregator;
 using Organizer.Core.Interfaces.Service;
 using Organizer.Core.Interfaces.ViewModels;
 using Organizer.Core.Models;
 using Organizer.Core.Specifications;
+using Organizer.Infrastructure.Command;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Organizer.UI.ViewModel
 {
@@ -23,6 +27,7 @@ namespace Organizer.UI.ViewModel
                 await LoadAsync(Id);
             });
 
+            SaveCommand = new RelayCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
         public async Task LoadAsync(int id)
@@ -32,6 +37,21 @@ namespace Organizer.UI.ViewModel
             {
                 Friend = result.FirstOrDefault();
             }
+        }
+
+        private void OnSaveExecute(object parameter)
+        {
+            _friendDataService.UpdateAsync(Friend);
+            if(_friendDataService.SaveAllChangesAsync().Result > 0)
+            {
+                _eventAggregator.Publish<NavigationItemViewModel>(new NavigationItemViewModel(Friend.Id, $"{Friend.FirstName} {Friend.LastName}"));
+            }
+            
+        }
+
+        private bool OnSaveCanExecute(object parameter)
+        {
+            return true;
         }
 
         private Friend _friend;
@@ -45,6 +65,8 @@ namespace Organizer.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        public ICommand SaveCommand{ get; set; }
 
     }
 }
