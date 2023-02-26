@@ -2,7 +2,7 @@
 using Organizer.Core.Interfaces.Specification;
 using Organizer.Core.Models;
 
-namespace Organizer.Data
+namespace Organizer.Data.Specifications
 {
     public class SpecificationEvaluetor<TModel> where TModel : BaseModel
     {

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Organizer.Core.Specifications
+namespace Organizer.Data.Specifications
 {
     public class BaseSpecification<T> : ISpecification<T>
     {

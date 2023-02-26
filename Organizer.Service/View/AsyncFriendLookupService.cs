@@ -1,6 +1,6 @@
 ﻿using Organizer.Core.Interfaces.Service;
-using Organizer.Core.Models;
-using Organizer.Core.Specifications;
+using Organizer.Core.Models.Lookups;
+using Organizer.Data.Specifications;
 using Organizer.Service.Data;
 
 namespace Organizer.Service.View

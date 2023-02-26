@@ -2,15 +2,16 @@
 using Organizer.Core.Interfaces.Data;
 using Organizer.Core.Interfaces.Specification;
 using Organizer.Core.Models;
+using Organizer.Data.Specifications;
 
 namespace Organizer.Data.Repository
 {
     //TODO: Error and Exception handling, check and adjust return values... ?
-    public class BaseAsyncRepository<T> : IBaseAsyncRepository<T> where T : BaseModel
+    public class BaseEntityFrameworkAsyncRepository<T> : IBaseAsyncRepository<T> where T : BaseModel
     {
         private readonly DbContext _context;
 
-        public BaseAsyncRepository(DbContext context)
+        public BaseEntityFrameworkAsyncRepository(DbContext context)
         {
             _context = context;
         }

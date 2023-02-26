@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Organizer.Core.Interfaces.Data;
+﻿using Organizer.Core.Interfaces.Data;
 using Organizer.Core.Interfaces.Service;
 using Organizer.Core.Interfaces.Specification;
 using Organizer.Core.Models;
-using Organizer.Core.Specifications;
 
 namespace Organizer.Service.Data
 {
@@ -39,7 +37,7 @@ namespace Organizer.Service.Data
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-           return await _unitOfWork.Repository<T>().GetAllAsync();
+            return await _unitOfWork.Repository<T>().GetAllAsync();
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync(ISpecification<T> specification)
@@ -64,8 +62,13 @@ namespace Organizer.Service.Data
 
         public virtual async Task<int> SaveAllChangesAsync()
         {
-           return await _unitOfWork.Complete();
+            return await _unitOfWork.Complete();
         }
-       
+
+        public virtual bool HasChanges()
+        {
+            return _unitOfWork.HasChanges();
+        }
+
     }
 }

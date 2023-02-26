@@ -1,5 +1,5 @@
 ﻿using Organizer.Core.Interfaces.Specification;
-using Organizer.Core.Models;
+using Organizer.Core.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Organizer.Core.Specifications
+namespace Organizer.Data.Specifications
 {
     public class FriendsOrderedByFirstNameSpecification : BaseSpecification<Friend>
     {

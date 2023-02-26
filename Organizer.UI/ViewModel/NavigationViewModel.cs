@@ -1,6 +1,6 @@
 ﻿using Organizer.Core.Interfaces.Events.Aggregator;
 using Organizer.Core.Interfaces.Service;
-using Organizer.Core.Models;
+using Organizer.Core.Models.Lookups;
 using Organizer.Core.ViewModel;
 using System;
 using System.Collections.ObjectModel;
@@ -12,8 +12,7 @@ namespace Organizer.UI.ViewModel
     public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
         private IAsyncLookupService<LookupItem> _lookupService;
-        private readonly IEventAggregator _eventAggregator;
-        private NavigationItemViewModel _selectedFriend;
+        private readonly IEventAggregator _eventAggregator;       
 
         public NavigationViewModel(IAsyncLookupService<LookupItem> lookupService, IEventAggregator eventAggregator)
         {
@@ -38,25 +37,12 @@ namespace Organizer.UI.ViewModel
             Friends.Clear();
             foreach (var item in lookup)
             {
-                Friends.Add(new NavigationItemViewModel(item.Id, item.DisplayMember));
+                Friends.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
             }
 
         }
 
-        public ObservableCollection<NavigationItemViewModel> Friends { get; }
-        public NavigationItemViewModel SelectedFriend
-        {
-            get { return _selectedFriend; }
-            set
-            {
-                _selectedFriend = value;
-                OnPropertyChanged();
-                if (_selectedFriend != null)
-                {                    
-                    _eventAggregator.Publish<int>(this.SelectedFriend.Id);
-                }
-            }
-        }
+        public ObservableCollection<NavigationItemViewModel> Friends { get; }    
 
     }
 }

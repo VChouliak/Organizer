@@ -32,6 +32,11 @@ namespace Organizer.Infrastructure.Command
         {
             _executeMethod(parameter);
         }
-       
+        
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
     }
 }

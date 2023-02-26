@@ -9,5 +9,6 @@ namespace Organizer.Core.Interfaces.ViewModels
     public interface IDetailsViewModel
     {
         Task LoadAsync(int id);
+        bool HasChanges {  get; }
     }
 }

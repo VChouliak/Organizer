@@ -2,14 +2,9 @@
 using Organizer.Core.Interfaces.Data;
 using Organizer.Core.Models;
 using Organizer.Data.Repository;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Organizer.Data
+namespace Organizer.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -31,6 +26,11 @@ namespace Organizer.Data
             _context.Dispose();
         }
 
+        public bool HasChanges()
+        {
+            return _context.ChangeTracker.HasChanges();
+        }
+
         public IBaseAsyncRepository<TModel> Repository<TModel>() where TModel : BaseModel
         {
             if (_repositories == null)
@@ -40,9 +40,9 @@ namespace Organizer.Data
             var type = typeof(TModel).Name;
             if (!_repositories.ContainsKey(type))
             {
-                var repositoryType = typeof(BaseAsyncRepository<>);
+                var repositoryType = typeof(BaseEntityFrameworkAsyncRepository<>);
                 var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TModel)), _context);
-                _repositories.Add (type, repositoryInstance);
+                _repositories.Add(type, repositoryInstance);
             }
 
             return _repositories[type] as IBaseAsyncRepository<TModel>;

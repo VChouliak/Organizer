@@ -2,9 +2,8 @@
 
 namespace Organizer.Core.Interfaces.Data
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IUnitOfWorkBaseOperations, IUnitOfWorkEntityStateCheck, IDisposable
     {
-        public IBaseAsyncRepository<TModel> Repository<TModel>() where TModel : BaseModel;
-        public Task<int> Complete();
+        public IBaseAsyncRepository<TModel> Repository<TModel>() where TModel : BaseModel;       
     }
 }

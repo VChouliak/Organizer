@@ -1,4 +1,4 @@
-﻿using Organizer.Core.Models;
+﻿using Organizer.Core.Models.Entities;
 
 namespace Organizer.Core.Interfaces.Service
 {

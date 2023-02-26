@@ -1,6 +1,7 @@
 ﻿using Organizer.Core.Interfaces.Service;
-using Organizer.Core.Models;
+using Organizer.Core.Models.Entities;
 using Organizer.Data;
+using Organizer.Data.UnitOfWork;
 
 namespace Organizer.Service.Data
 {
