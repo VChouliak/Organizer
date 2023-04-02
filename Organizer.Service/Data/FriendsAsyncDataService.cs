@@ -2,6 +2,7 @@
 using Organizer.Core.Models.Entities;
 using Organizer.Data;
 using Organizer.Data.UnitOfWork;
+using Organizer.Infrastructure.Data;
 
 namespace Organizer.Service.Data
 {

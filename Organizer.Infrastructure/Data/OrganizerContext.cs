@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Organizer.Core.Models.Entities;
 
-namespace Organizer.Data
+namespace Organizer.Infrastructure.Data
 {
     public class OrganizerContext : DbContext
     {
