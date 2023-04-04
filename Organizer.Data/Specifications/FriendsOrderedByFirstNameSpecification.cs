@@ -16,7 +16,7 @@ namespace Organizer.Data.Specifications
             AddOrderBy(friend => friend.FirstName);
         }
 
-        public FriendsOrderedByFirstNameSpecification(int id) : base(x => x.Id == id)
+        public FriendsOrderedByFirstNameSpecification(int? id) : base(x => x.Id == id)
         {
         }
     }

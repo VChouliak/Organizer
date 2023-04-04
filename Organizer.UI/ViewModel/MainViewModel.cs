@@ -1,9 +1,12 @@
 ﻿using Organizer.Core.Interfaces.Events.Aggregator;
 using Organizer.Core.Interfaces.ViewModels;
 using Organizer.Core.ViewModel;
+using Organizer.Infrastructure.Command;
+using Organizer.UI.Events;
 using Organizer.UI.Service;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Organizer.UI.ViewModel
 {
@@ -21,11 +24,21 @@ namespace Organizer.UI.ViewModel
             _messageDialogService = messageDialogService;
             _eventAggregator.Subscribe<int>(async (Id) =>
             {
-                LoadFriendDetailsViewAsync(Id);
+                await LoadFriendDetailsViewAsync(Id);
             });
 
+            _eventAggregator.Subscribe<OnDeleteFriendEventArgs>(i => AfterEntryDeleted());
+
             NavigationViewModel = navigationViewModel;
+            CreateNewEntryCommand = new RelayCommand(OnCreateNewEntry, OnCanCreateNewEntry);
         }
+
+        private void AfterEntryDeleted()
+        {
+            FriendDetailsViewModel = null;
+        }
+
+        public ICommand CreateNewEntryCommand { get; set; }
 
         public INavigationViewModel NavigationViewModel { get; }
 
@@ -44,7 +57,7 @@ namespace Organizer.UI.ViewModel
             await NavigationViewModel.LoadAsync();
         }
 
-        public async void LoadFriendDetailsViewAsync(int id)
+        public async Task LoadFriendDetailsViewAsync(int? id)
         {
             if (FriendDetailsViewModel != null && FriendDetailsViewModel.HasChanges)
             {
@@ -56,6 +69,16 @@ namespace Organizer.UI.ViewModel
             }
             FriendDetailsViewModel = _detailsViewModelCreator();
             await FriendDetailsViewModel.LoadAsync(id);
+        }
+
+        private bool OnCanCreateNewEntry(object arg)
+        {
+            return true; //TODO: Adjust
+        }
+
+        private async void OnCreateNewEntry(object obj)
+        {
+           await LoadFriendDetailsViewAsync(null);
         }
     }
 }
