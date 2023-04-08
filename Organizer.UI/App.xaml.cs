@@ -19,7 +19,7 @@ namespace Organizer.UI
             var mainWindow = new MainWindow(
                 new MainViewModel(new NavigationViewModel(new AsyncFriendLookupService(
                     new FriendsAsyncDataService()), eventAggregator), 
-                    () => new FriendDetailsViewModel(new FriendsAsyncDataService(), eventAggregator, new MessageDialogService()),
+                    () => new FriendDetailsViewModel(new FriendsAsyncDataService(), eventAggregator, new MessageDialogService(), new AsyncProgrammingLanguageLookupservice(new ProgrammingLanguagesAsyncDataService())),
                     eventAggregator,
                     new MessageDialogService()
                     ));
