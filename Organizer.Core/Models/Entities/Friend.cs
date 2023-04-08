@@ -11,5 +11,7 @@ namespace Organizer.Core.Models.Entities
         public string LastName { get; set; }
         [MaxLength(50)]
         public string Email { get; set; }
+        public int ProgrammingLanguageId { get; set; }
+        public ProgrammingLanguage ProgrammingLanguage { get; set; }
     }
 }
