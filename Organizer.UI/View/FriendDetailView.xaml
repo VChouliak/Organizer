@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Organizer.UI.View"             
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="500">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -34,10 +34,27 @@
                   DisplayMemberPath="DisplayMember"
                   SelectedValuePath="Id"
                   SelectedValue="{Binding Friend.ProgrammingLanguageId, Mode=TwoWay}"/>
-        
-        <StackPanel Grid.Row="9" Orientation="Horizontal">
+        <DockPanel Grid.Row="8">
+            <StackPanel DockPanel.Dock="Right">
+                <Button Content="Add" Width="125" Margin="10" Command="{Binding AddPhoneNumberCommand}"/>
+                <Button Content="Remove" Width="125" Margin="10" Command="{Binding RemovePhoneNumberCommand}"/>
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding PhoneNumbers}"
+                      SelectedItem="{Binding SelectedPhoneNumber, Mode=TwoWay}"
+                      AutoGenerateColumns="False" RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Phone Numbers" Width="*"
+                                        Binding="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+        </DockPanel>
+        <StackPanel Grid.Row="9" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center">
             <Button Content="Save Changes" Width="125" Margin="10" Command="{Binding SaveCommand}"/>
             <Button Content="Delete" Width="125" Margin="10" Command="{Binding DeleteCommand}"/>
         </StackPanel>
+
     </Grid>
 </UserControl>

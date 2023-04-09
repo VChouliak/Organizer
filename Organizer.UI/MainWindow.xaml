@@ -16,7 +16,7 @@
         Background="{DynamicResource MaterialDesignLightBackground}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         FontSize="20"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="750" Width="1000">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:FriendDetailsViewModel}">
             <view:FriendDetailView/>

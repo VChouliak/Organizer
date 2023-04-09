@@ -16,6 +16,12 @@ namespace Organizer.Infrastructure.Command
             _canExecute = canExecute;
         }
 
+        public RelayCommand(Action<object> executeMethod)
+        {
+            _executeMethod = executeMethod;
+            _canExecute = x => true;
+        }
+
         public bool CanExecute(object? parameter)
         {
             if (_canExecute != null)
@@ -32,7 +38,7 @@ namespace Organizer.Infrastructure.Command
         {
             _executeMethod(parameter);
         }
-        
+
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);

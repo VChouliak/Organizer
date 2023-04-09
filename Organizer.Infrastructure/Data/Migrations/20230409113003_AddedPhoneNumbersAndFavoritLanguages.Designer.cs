@@ -10,8 +10,8 @@ using Organizer.Infrastructure.Data;
 namespace Organizer.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OrganizerContext))]
-    [Migration("20230408060148_AddedProgrammingLanguages")]
-    partial class AddedProgrammingLanguages
+    [Migration("20230409113003_AddedPhoneNumbersAndFavoritLanguages")]
+    partial class AddedPhoneNumbersAndFavoritLanguages
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,26 @@ namespace Organizer.Infrastructure.Data.Migrations
                     b.ToTable("Friends");
                 });
 
+            modelBuilder.Entity("Organizer.Core.Models.Entities.FriendPhoneNumber", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("FriendId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("FriendPhoneNumbers");
+                });
+
             modelBuilder.Entity("Organizer.Core.Models.Entities.ProgrammingLanguage", b =>
                 {
                     b.Property<int>("Id")
@@ -77,6 +97,22 @@ namespace Organizer.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("ProgrammingLanguage");
+                });
+
+            modelBuilder.Entity("Organizer.Core.Models.Entities.FriendPhoneNumber", b =>
+                {
+                    b.HasOne("Organizer.Core.Models.Entities.Friend", "Friend")
+                        .WithMany("PhoneNumbers")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Friend");
+                });
+
+            modelBuilder.Entity("Organizer.Core.Models.Entities.Friend", b =>
+                {
+                    b.Navigation("PhoneNumbers");
                 });
 #pragma warning restore 612, 618
         }
