@@ -14,40 +14,40 @@ namespace Organizer.UI.ViewModel
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
-        private readonly Func<IDetailsViewModel> _detailsViewModelCreator;
-        private IDetailsViewModel _friendDetailViewModel;
+        private readonly Func<IDetailViewModel> _detailViewModelCreator;
+        private IDetailViewModel _detailViewModel;
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDetailsViewModel> detailsViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
+        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDetailViewModel> detailsViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
-            _detailsViewModelCreator = detailsViewModelCreator;
+            _detailViewModelCreator = detailsViewModelCreator;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            _eventAggregator.Subscribe<int>(async (Id) =>
+            _eventAggregator.Subscribe<OpenDetailViewEventArgs>(async detailViewModelArgs =>
             {
-                await LoadFriendDetailsViewAsync(Id);
+                await OnOpenDetailViewAsync(detailViewModelArgs);
             });
 
-            _eventAggregator.Subscribe<OnDeleteFriendEventArgs>(i => AfterEntryDeleted());
+            _eventAggregator.Subscribe<AfterDetailDeletedEventArgs>(eventargs => AfterEntryDeleted(eventargs));
 
             NavigationViewModel = navigationViewModel;
-            CreateNewEntryCommand = new RelayCommand(OnCreateNewEntry, OnCanCreateNewEntry);
+            CreateNewDetailCommand = new RelayCommand(OnCreateNewDetailExecute);
         }
 
-        private void AfterEntryDeleted()
+        private void AfterEntryDeleted(AfterDetailDeletedEventArgs args)
         {
-            FriendDetailsViewModel = null;
+            DetailViewModel = null;
         }
 
-        public ICommand CreateNewEntryCommand { get; set; }
+        public ICommand CreateNewDetailCommand { get; set; }
 
         public INavigationViewModel NavigationViewModel { get; }
 
-        public IDetailsViewModel FriendDetailsViewModel
+        public IDetailViewModel DetailViewModel
         {
-            get { return _friendDetailViewModel; }
+            get { return _detailViewModel; }
             private set
             {
-                _friendDetailViewModel = value;
+                _detailViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -57,9 +57,9 @@ namespace Organizer.UI.ViewModel
             await NavigationViewModel.LoadAsync();
         }
 
-        public async Task LoadFriendDetailsViewAsync(int? id)
+        public async Task OnOpenDetailViewAsync(OpenDetailViewEventArgs args)
         {
-            if (FriendDetailsViewModel != null && FriendDetailsViewModel.HasChanges)
+            if (DetailViewModel != null && DetailViewModel.HasChanges)
             {
                 var messageBoxResult = _messageDialogService.ShowOkCancelDialog("You have made changes. Navigate away ?", "Question");
                 if (messageBoxResult == MessageDialogResult.Cancel)
@@ -67,18 +67,18 @@ namespace Organizer.UI.ViewModel
                     return;
                 }
             }
-            FriendDetailsViewModel = _detailsViewModelCreator();
-            await FriendDetailsViewModel.LoadAsync(id);
+            switch (args.ViewModel)
+            {
+                case nameof(FriendDetailsViewModel):
+                    DetailViewModel = _detailViewModelCreator();
+                    break;
+            }
+            await DetailViewModel.LoadAsync(args.Id);
         }
 
-        private bool OnCanCreateNewEntry(object arg)
+        private async void OnCreateNewDetailExecute(object viewModelType)
         {
-            return true; //TODO: Adjust
-        }
-
-        private async void OnCreateNewEntry(object obj)
-        {
-           await LoadFriendDetailsViewAsync(null);
+            await OnOpenDetailViewAsync(new OpenDetailViewEventArgs {ViewModel = ((Type)viewModelType).Name});
         }
     }
 }

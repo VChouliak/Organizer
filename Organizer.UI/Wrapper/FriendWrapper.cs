@@ -36,11 +36,11 @@ namespace Organizer.UI.Wrapper
             set { SetValue(value); }
         }
 
-        public int ProgrammingLanguageId
+        public int? ProgrammingLanguageId
         {
             get
             {
-                return GetValue<int>();
+                return GetValue<int?>();
             }
             set
             {

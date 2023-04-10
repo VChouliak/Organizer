@@ -36,8 +36,8 @@ namespace Organizer.Infrastructure.Data.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    ProgrammingLanguageId = table.Column<int>(type: "int", nullable: true, defaultValue:1)
+                    Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    ProgrammingLanguageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Organizer.Core.Interfaces.ViewModels
 {
-    public interface IDetailsViewModel
+    public interface IDetailViewModel
     {
         Task LoadAsync(int? id);
         bool HasChanges {  get; }

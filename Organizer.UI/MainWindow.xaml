@@ -33,11 +33,12 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.ColumnSpan="2" FontSize="20">
             <MenuItem Header="Create">
-                <MenuItem Header="New Friend" Command="{Binding CreateNewEntryCommand}"/>
+                <MenuItem Header="New Friend" Command="{Binding CreateNewDetailCommand}"
+                          CommandParameter="{x:Type viewModel:FriendDetailsViewModel}"/>
             </MenuItem>
         </Menu>
         <view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="1" HorizontalAlignment="Left"/>
-        <ContentControl Grid.Column="1" Content="{Binding FriendDetailsViewModel}" Grid.Row="1"/>
+        <ContentControl Grid.Column="1" Content="{Binding DetailViewModel}" Grid.Row="1"/>
         <Grid>
 
         </Grid>

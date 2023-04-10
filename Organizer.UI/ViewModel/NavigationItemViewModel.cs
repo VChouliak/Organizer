@@ -1,10 +1,6 @@
 ﻿using Organizer.Core.Interfaces.Events.Aggregator;
 using Organizer.Infrastructure.Command;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Organizer.UI.Events;
 using System.Windows.Input;
 
 namespace Organizer.UI.ViewModel
@@ -13,19 +9,16 @@ namespace Organizer.UI.ViewModel
     {
         private readonly IEventAggregator _eventAggregator;
         private string _displayMember;
+        private readonly string _detailViewModelName;
 
-        public NavigationItemViewModel(int id, string displayMember, IEventAggregator eventAggregator)
+        public NavigationItemViewModel(int id, string displayMember, string detailViewModelName, IEventAggregator eventAggregator)
         {
             Id = id;
             DisplayMember = displayMember;
+            _detailViewModelName = detailViewModelName;
             _eventAggregator = eventAggregator;
-            OpenFriendDetailViewCommand = new RelayCommand(OnOpenFriendDetailView, OnCanOpenFriendDetailView);
-        }
-
-        private bool OnCanOpenFriendDetailView(object arg)
-        {
-            return true; // TODO: implement
-        }
+            OpenDetailViewCommand = new RelayCommand(OnOpenDetailViewExecute);
+        }       
 
         public int Id { get; }
 
@@ -38,11 +31,13 @@ namespace Organizer.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ICommand OpenFriendDetailViewCommand { get; }
 
-        private void OnOpenFriendDetailView(object obj)
+
+        public ICommand OpenDetailViewCommand { get; }
+
+        private void OnOpenDetailViewExecute(object obj)
         {
-            _eventAggregator.Publish<int>(Id);
+            _eventAggregator.Publish<OpenDetailViewEventArgs>( new () { Id = Id, ViewModel = _detailViewModelName});
         }
     }
 }

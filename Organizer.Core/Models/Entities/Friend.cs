@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Organizer.Core.Models.Entities
 {
@@ -15,11 +13,12 @@ namespace Organizer.Core.Models.Entities
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
+        [Required]
         [MaxLength(50)]
         public string LastName { get; set; }
         [MaxLength(50)]
-        public string Email { get; set; }      
-        public int ProgrammingLanguageId { get; set; }      
+        public string? Email { get; set; }      
+        public int? ProgrammingLanguageId { get; set; }      
         public ProgrammingLanguage ProgrammingLanguage { get; set; }
         public ICollection<FriendPhoneNumber> PhoneNumbers { get; set; }
     }

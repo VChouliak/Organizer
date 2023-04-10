@@ -20,7 +20,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Content="{Binding DisplayMember}"
-                                Command ="{Binding OpenFriendDetailViewCommand}"
+                                Command ="{Binding OpenDetailViewCommand}"
                                 Foreground="#383838">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">

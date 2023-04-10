@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace Organizer.UI.Events
 {
-    public class OnSaveFriendEventArgs : EventArgs
+    public class AfterDetailSavedEventArgs : EventArgs
     {
-        public OnSaveFriendEventArgs(int id, string displayMember)
-        {
-            Id = id;
-            DisplayMember = displayMember;
+        public AfterDetailSavedEventArgs()
+        {           
         }
 
         public int Id { get; set; }
         public string DisplayMember { get; set; }
+        public string ViewModel { get; set; }
     }
 }
