@@ -8,6 +8,7 @@ namespace Organizer.Core.Models.Entities
         public Friend()
         {
             PhoneNumbers = new Collection<FriendPhoneNumber>();
+            Meetings = new Collection<Meeting>();
         }
 
         [Required]
@@ -21,5 +22,6 @@ namespace Organizer.Core.Models.Entities
         public int? ProgrammingLanguageId { get; set; }      
         public ProgrammingLanguage ProgrammingLanguage { get; set; }
         public ICollection<FriendPhoneNumber> PhoneNumbers { get; set; }
+        public ICollection<Meeting> Meetings { get; set; }
     }
 }

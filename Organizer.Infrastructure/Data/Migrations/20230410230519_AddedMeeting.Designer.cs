@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Organizer.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using Organizer.Infrastructure.Data;
 namespace Organizer.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OrganizerContext))]
-    partial class OrganizerContextModelSnapshot : ModelSnapshot
+    [Migration("20230410230519_AddedMeeting")]
+    partial class AddedMeeting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
