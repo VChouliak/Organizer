@@ -15,11 +15,13 @@ namespace Organizer.UI.ViewModel
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private readonly Func<IDetailViewModel> _detailViewModelCreator;
+        private readonly Func<IMeetingDetailViewModel> _meettingDetailsViewModelCreator;
         private IDetailViewModel _detailViewModel;
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDetailViewModel> detailsViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
+        public MainViewModel(INavigationViewModel navigationViewModel, Func<FriendDetailViewModel> detailsViewModelCreator, Func<MeetingDetailViewModel> meettingDetailsViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _detailViewModelCreator = detailsViewModelCreator;
+            _meettingDetailsViewModelCreator = meettingDetailsViewModelCreator;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _eventAggregator.Subscribe<OpenDetailViewEventArgs>(async detailViewModelArgs =>
@@ -69,9 +71,14 @@ namespace Organizer.UI.ViewModel
             }
             switch (args.ViewModel)
             {
-                case nameof(FriendDetailsViewModel):
+                case nameof(FriendDetailViewModel):
                     DetailViewModel = _detailViewModelCreator();
                     break;
+                case nameof(MeetingDetailViewModel):
+                    DetailViewModel = _meettingDetailsViewModelCreator();
+                    break;
+                default:
+                    throw new Exception($"ViewModel {args.ViewModel} not mapped");
             }
             await DetailViewModel.LoadAsync(args.Id);
         }

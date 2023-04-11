@@ -18,8 +18,9 @@ namespace Organizer.UI
             var eventAggregator = new EventAggregator();
             var mainWindow = new MainWindow(
                 new MainViewModel(new NavigationViewModel(new AsyncFriendLookupService(
-                    new FriendsAsyncDataService()), eventAggregator), 
-                    () => new FriendDetailsViewModel(new FriendsAsyncDataService(), eventAggregator, new MessageDialogService(), new AsyncProgrammingLanguageLookupservice(new ProgrammingLanguagesAsyncDataService())),
+                    new FriendsAsyncDataService()), new MeetingAsyncLookupDataService(new MeetingAsyncDataService()), eventAggregator),
+                    () => new FriendDetailViewModel(new FriendsAsyncDataService(), eventAggregator, new MessageDialogService(), new AsyncProgrammingLanguageLookupservice(new ProgrammingLanguagesAsyncDataService())),
+                    () => new MeetingDetailViewModel(eventAggregator, new MessageDialogService(), new MeetingAsyncDataService()),
                     eventAggregator,
                     new MessageDialogService()
                     ));

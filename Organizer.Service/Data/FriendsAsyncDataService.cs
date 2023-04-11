@@ -6,7 +6,7 @@ using Organizer.Infrastructure.Data;
 
 namespace Organizer.Service.Data
 {
-    public class FriendsAsyncDataService : BaseAsyncDataService<Friend>, IFriendAsyncDataService
+    public class FriendsAsyncDataService : BaseAsyncDataService<Friend>, IFriendsAsyncDataService
     {
         //TODO: Adjust constructor/s for unit of work and/or BaseDataService...?
         public FriendsAsyncDataService() : base(new UnitOfWork(new OrganizerContext()))

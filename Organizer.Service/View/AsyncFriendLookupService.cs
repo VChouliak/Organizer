@@ -7,9 +7,9 @@ namespace Organizer.Service.View
 {
     public class AsyncFriendLookupService : IAsyncLookupService<LookupItem>
     {
-        private readonly FriendsAsyncDataService _friendsAsyncDataService;
+        private readonly IFriendsAsyncDataService _friendsAsyncDataService;
 
-        public AsyncFriendLookupService(FriendsAsyncDataService friendsAsyncDataService)
+        public AsyncFriendLookupService(IFriendsAsyncDataService friendsAsyncDataService)
         {
             _friendsAsyncDataService = friendsAsyncDataService;
         }

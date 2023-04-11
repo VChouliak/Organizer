@@ -1,4 +1,5 @@
 ﻿using Organizer.Core.Interfaces.Service;
+using Organizer.Core.Interfaces.Services;
 using Organizer.Core.Models.Lookups;
 using Organizer.Service.Data;
 
@@ -6,9 +7,9 @@ namespace Organizer.Service.View
 {
     public class AsyncProgrammingLanguageLookupservice : IAsyncLookupService<LookupItem>
     {
-        private readonly ProgrammingLanguagesAsyncDataService _programmingLanguageAsyncDataService;
+        private readonly IProgrammingLanguageAsyncDataService _programmingLanguageAsyncDataService;
 
-        public AsyncProgrammingLanguageLookupservice(ProgrammingLanguagesAsyncDataService programmingLanguageAsyncDataService)
+        public AsyncProgrammingLanguageLookupservice(IProgrammingLanguageAsyncDataService programmingLanguageAsyncDataService)
         {
             _programmingLanguageAsyncDataService = programmingLanguageAsyncDataService;
         }

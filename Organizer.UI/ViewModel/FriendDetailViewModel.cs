@@ -18,17 +18,17 @@ using System.Windows.Input;
 
 namespace Organizer.UI.ViewModel
 {
-    public class FriendDetailsViewModel : DetailViewModelBase, IDetailViewModel
+    public class FriendDetailViewModel : DetailViewModelBase, IDetailViewModel
     {
-        private IFriendAsyncDataService _friendDataService;        
+        private IFriendsAsyncDataService _friendDataService;        
         private readonly IMessageDialogService _messageDialogService;
         private readonly IAsyncLookupService<LookupItem> _propgrammingLanguageLookupService;
         private FriendWrapper _friend;
         private bool _hasChanges;
         private FriendPhoneNumberWrapper _selectedPhoneNumber;
 
-        public FriendDetailsViewModel(
-            IFriendAsyncDataService friendsDataService, 
+        public FriendDetailViewModel(
+            IFriendsAsyncDataService friendsDataService, 
             IEventAggregator eventAggregator, 
             IMessageDialogService messageDialogService, 
             IAsyncLookupService<LookupItem> propgrammingLanguageLookupService)
