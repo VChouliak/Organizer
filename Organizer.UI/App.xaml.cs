@@ -20,7 +20,7 @@ namespace Organizer.UI
                 new MainViewModel(new NavigationViewModel(new AsyncFriendLookupService(
                     new FriendsAsyncDataService()), new MeetingAsyncLookupDataService(new MeetingAsyncDataService()), eventAggregator),
                     () => new FriendDetailViewModel(new FriendsAsyncDataService(), eventAggregator, new MessageDialogService(), new AsyncProgrammingLanguageLookupservice(new ProgrammingLanguagesAsyncDataService())),
-                    () => new MeetingDetailViewModel(eventAggregator, new MessageDialogService(), new MeetingAsyncDataService()),
+                    () => new MeetingDetailViewModel(eventAggregator, new MessageDialogService(), new MeetingAsyncDataService(), new FriendsAsyncDataService()),
                     eventAggregator,
                     new MessageDialogService()
                     ));

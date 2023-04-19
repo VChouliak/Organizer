@@ -5,10 +5,8 @@ using Organizer.Core.Models.Entities;
 using Organizer.Core.Models.Lookups;
 using Organizer.Data.Specifications;
 using Organizer.Infrastructure.Command;
-using Organizer.UI.Events;
 using Organizer.UI.Service;
 using Organizer.UI.Wrapper;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,7 +18,7 @@ namespace Organizer.UI.ViewModel
 {
     public class FriendDetailViewModel : DetailViewModelBase, IDetailViewModel
     {
-        private IFriendsAsyncDataService _friendDataService;        
+        private IFriendsAsyncDataService _friendDataService;
         private readonly IMessageDialogService _messageDialogService;
         private readonly IAsyncLookupService<LookupItem> _propgrammingLanguageLookupService;
         private FriendWrapper _friend;
@@ -28,16 +26,16 @@ namespace Organizer.UI.ViewModel
         private FriendPhoneNumberWrapper _selectedPhoneNumber;
 
         public FriendDetailViewModel(
-            IFriendsAsyncDataService friendsDataService, 
-            IEventAggregator eventAggregator, 
-            IMessageDialogService messageDialogService, 
+            IFriendsAsyncDataService friendsDataService,
+            IEventAggregator eventAggregator,
+            IMessageDialogService messageDialogService,
             IAsyncLookupService<LookupItem> propgrammingLanguageLookupService)
-            :base(eventAggregator)
+            : base(eventAggregator)
         {
-            _friendDataService = friendsDataService;           
+            _friendDataService = friendsDataService;
             _messageDialogService = messageDialogService;
             _propgrammingLanguageLookupService = propgrammingLanguageLookupService;
-            
+
             AddPhoneNumberCommand = new RelayCommand(OnAddPhoneNumberExecute);
             RemovePhoneNumberCommand = new RelayCommand(OnRemovePhoneNumberExecute, OnRemovePhoneNumberCanExecute);
 
@@ -47,16 +45,16 @@ namespace Organizer.UI.ViewModel
 
         public override async Task LoadAsync(int? id)
         {
-            var result = await _friendDataService.GetAllAsync(new FriendsOrderedByFirstNameIncludePhoneNumbers(id));
+            var result = await _friendDataService.GetEntityWithSpecificationAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersAndMeetingsSpecification(id));
             InitializeFriend(result);
-            if (result.Count() > 0)
+            if (result != null)
             {
-                InitializeFriendPhoneNumbers(result.FirstOrDefault().PhoneNumbers);
+                InitializeFriendPhoneNumbers(result.PhoneNumbers);
             }
             await LoadProgrammingLanguagesLookupAsync();
 
         }
-    
+
         public FriendWrapper Friend
         {
             get { return _friend; }
@@ -79,7 +77,7 @@ namespace Organizer.UI.ViewModel
                 ((RelayCommand)RemovePhoneNumberCommand).RaiseCanExecuteChanged();
             }
         }
-      
+
         public ICommand AddPhoneNumberCommand { get; set; }
         public ICommand RemovePhoneNumberCommand { get; set; }
 
@@ -113,17 +111,9 @@ namespace Organizer.UI.ViewModel
             }
         }
 
-        private void InitializeFriend(IEnumerable<Friend> result)
+        private void InitializeFriend(Friend friend)
         {
-            if (result.Any())
-            {
-                var friend = result.FirstOrDefault();
-                Friend = new FriendWrapper(friend);
-            }
-            else
-            {
-                Friend = new FriendWrapper(CreateNewEntry());
-            }
+            Friend = friend != null ? new FriendWrapper(friend) : new FriendWrapper(CreateNewEntry());
 
             Friend.PropertyChanged += (s, e) =>
             {
@@ -146,7 +136,7 @@ namespace Organizer.UI.ViewModel
 
         private async Task LoadProgrammingLanguagesLookupAsync()
         {
-            ProgrammingLanguages.Clear();            
+            ProgrammingLanguages.Clear();
             var lookup = await _propgrammingLanguageLookupService.GetLookupAsync();
 
             foreach (var lookupitem in lookup)
@@ -189,7 +179,7 @@ namespace Organizer.UI.ViewModel
         {
             await _friendDataService.SaveAllChangesAsync();
             HasChanges = _friendDataService.HasChanges();
-            RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");            
+            RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
         }
 
         protected override bool OnSaveCanExecute(object parameter)
@@ -202,12 +192,18 @@ namespace Organizer.UI.ViewModel
 
         protected override async void OnDeleteExecute(object obj)
         {
+            if (Friend.Model.Meetings.Any())
+            {
+                _messageDialogService.ShowInfoDialog($"{Friend.FirstName} {Friend.LastName} can not be deleted, at this friend is part of at least one meeting");
+                return;
+            }
+
             var dialogResult = _messageDialogService.ShowOkCancelDialog($"Do you really wont to delete Entry {Friend.FirstName} {Friend.LastName}", "Question");
             if (dialogResult == MessageDialogResult.OK)
             {
                 await _friendDataService.DeleteAsync(Friend.Model);
                 await _friendDataService.SaveAllChangesAsync();
-                RaiseDetailDeletedEvent(Friend.Id);               
+                RaiseDetailDeletedEvent(Friend.Id);
             }
 
         }

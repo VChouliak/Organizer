@@ -16,7 +16,7 @@ namespace Organizer.Service.View
 
         public async Task<IEnumerable<LookupItem>> GetLookupAsync()
         {
-            var friends = await _friendsAsyncDataService.GetAllAsync(new FriendsOrderedByFirstNameIncludePhoneNumbers());
+            var friends = await _friendsAsyncDataService.GetAllAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersSpecification());
 
             if (friends == null)
             {
