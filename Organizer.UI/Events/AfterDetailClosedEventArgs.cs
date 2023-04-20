@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Organizer.UI.Events
 {
-    public class OpenDetailViewEventArgs : EventArgs
+    public class AfterDetailClosedEventArgs : EventArgs
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string ViewModelName { get; set; }
     }
 }

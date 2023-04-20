@@ -10,5 +10,6 @@ namespace Organizer.Core.Interfaces.ViewModels
     {
         Task LoadAsync(int? id);
         bool HasChanges {  get; }
+        public int Id { get;}       
     }
 }

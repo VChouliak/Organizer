@@ -37,7 +37,7 @@ namespace Organizer.UI.ViewModel
 
         private void OnOpenDetailViewExecute(object obj)
         {
-            _eventAggregator.Publish<OpenDetailViewEventArgs>( new () { Id = Id, ViewModel = _detailViewModelName});
+            _eventAggregator.Publish<OpenDetailViewEventArgs>( new () { Id = Id, ViewModelName = _detailViewModelName});
         }
     }
 }

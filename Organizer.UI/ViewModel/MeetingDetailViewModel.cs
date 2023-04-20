@@ -18,7 +18,6 @@ namespace Organizer.UI.ViewModel
 {
     public class MeetingDetailViewModel : DetailViewModelBase, IMeetingDetailViewModel
     {
-        private readonly IMessageDialogService _messageDialogService;
         private readonly IMeetingAsyncDataService _meetingDataService;
         private readonly IFriendsAsyncDataService _friendDataService;
         private MeetingWrapper _meeting;
@@ -27,9 +26,8 @@ namespace Organizer.UI.ViewModel
 
         private IEnumerable<Friend> _allFriends;
 
-        public MeetingDetailViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IMeetingAsyncDataService meetingDataService, IFriendsAsyncDataService friendDataService) : base(eventAggregator)
+        public MeetingDetailViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IMeetingAsyncDataService meetingDataService, IFriendsAsyncDataService friendDataService) : base(eventAggregator, messageDialogService)
         {
-            _messageDialogService = messageDialogService;
             _meetingDataService = meetingDataService;
             _friendDataService = friendDataService;
 
@@ -81,8 +79,11 @@ namespace Organizer.UI.ViewModel
 
         public override async Task LoadAsync(int? id)
         {
-            var meetingsResult = await _meetingDataService.GetEntityWithSpecificationAsync(new MeetingsIncludeFriendsSpecification(id));
-            InitializeMeeting(meetingsResult);
+            var meeting = id.HasValue ? await _meetingDataService.GetEntityWithSpecificationAsync(new MeetingsIncludeFriendsSpecification(id)) : CreateNewMeeting();
+           
+            Id = meeting.Id;
+           
+            InitializeMeeting(meeting);
 
             _allFriends = await _friendDataService.GetAllAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersAndMeetingsSpecification());
             SetupPicklist();
@@ -90,7 +91,7 @@ namespace Organizer.UI.ViewModel
 
         protected override async void OnDeleteExecute(object obj)
         {
-            var result = _messageDialogService.ShowOkCancelDialog($"Dow you really wont to delete entry {Meeting.Title}", "Question");
+            var result = MessageDialogService.ShowOkCancelDialog($"Dow you really wont to delete entry {Meeting.Title}", "Question");
             if (result == MessageDialogResult.OK)
             {
                 await _meetingDataService.DeleteAsync(Meeting.Model);
@@ -108,6 +109,7 @@ namespace Organizer.UI.ViewModel
         {
             await _meetingDataService.SaveAllChangesAsync();
             HasChanges = _meetingDataService.HasChanges();
+            Id = Meeting.Id;
             RaiseDetailSavedEvent(Meeting.Id, Meeting.Title);
         }
 
@@ -143,12 +145,22 @@ namespace Organizer.UI.ViewModel
                 {
                     ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
+                if(e.PropertyName == nameof(Meeting.Title))
+                {
+                    SetTitle();
+                }
             };
             ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
             if (Meeting.Id == 0)
             {
                 Meeting.Title = ""; //Used for validation Message in View...
             }
+            SetTitle();
+        }
+
+        private void SetTitle()
+        {
+           Title = Meeting.Title;
         }
 
         private Meeting CreateNewMeeting()
