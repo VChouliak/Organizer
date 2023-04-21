@@ -14,6 +14,6 @@ namespace Organizer.UI.Events
 
         public int Id { get; set; }
         public string DisplayMember { get; set; }
-        public string ViewModel { get; set; }
+        public string ViewModelName { get; set; }
     }
 }

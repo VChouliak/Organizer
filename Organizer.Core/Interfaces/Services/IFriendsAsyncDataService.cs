@@ -3,6 +3,7 @@
 namespace Organizer.Core.Interfaces.Service
 {
     public interface IFriendsAsyncDataService : IBaseAsyncDataService<Friend>
-    {       
+    {
+        Task ReloadFriendAsync(int id);
     }
 }

@@ -40,10 +40,10 @@ namespace Organizer.UI.ViewModel
             PhoneNumbers = new ObservableCollection<FriendPhoneNumberWrapper>();
         }
 
-        public override async Task LoadAsync(int? id)
+        public override async Task LoadAsync(int id)
         {
-            var friend = id.HasValue ? await _friendDataService.GetEntityWithSpecificationAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersAndMeetingsSpecification(id)) : CreateNewFriend();
-            Id = friend.Id;
+            var friend = id > 0 ? await _friendDataService.GetEntityWithSpecificationAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersAndMeetingsSpecification(id)) : CreateNewFriend();
+            Id = id;
             InitializeFriend(friend);
             if (friend != null)
             {               

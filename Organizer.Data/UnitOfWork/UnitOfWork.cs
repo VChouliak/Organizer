@@ -47,5 +47,10 @@ namespace Organizer.Data.UnitOfWork
 
             return _repositories[type] as IBaseAsyncRepository<TModel>;
         }
+
+        public DbContext GetDbContext()
+        {
+            return _context;
+        }
     }
 }

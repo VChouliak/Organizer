@@ -62,7 +62,7 @@ namespace Organizer.UI.ViewModel
 
         private void AfterDetailDeletedExecute(AfterDetailDeletedEventArgs args)
         {
-            RemoveDetailViewModel(args.Id, args.ViewModel);
+            RemoveDetailViewModel(args.Id, args.ViewModelName);
         }
 
 
@@ -94,9 +94,10 @@ namespace Organizer.UI.ViewModel
             SelectedDetailViewModel = detailViewModel;
         }
 
+        private int nextNewItemId = 0;
         private async void OnCreateNewDetailExecute(object viewModelType)
         {
-            await OnOpenDetailViewAsync(new OpenDetailViewEventArgs { ViewModelName = ((Type)viewModelType).Name });
+            await OnOpenDetailViewAsync(new OpenDetailViewEventArgs { Id = nextNewItemId--, ViewModelName = ((Type)viewModelType).Name });
         }
 
     }

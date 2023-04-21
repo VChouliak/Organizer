@@ -8,7 +8,7 @@ namespace Organizer.UI.Events
 {
     public class OpenDetailViewEventArgs : EventArgs
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string ViewModelName { get; set; }
     }
 }

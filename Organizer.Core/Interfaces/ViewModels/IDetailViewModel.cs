@@ -8,7 +8,7 @@ namespace Organizer.Core.Interfaces.ViewModels
 {
     public interface IDetailViewModel
     {
-        Task LoadAsync(int? id);
+        Task LoadAsync(int id);
         bool HasChanges {  get; }
         public int Id { get;}       
     }

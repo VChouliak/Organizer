@@ -5,11 +5,13 @@ using Organizer.Core.Interfaces.ViewModels;
 using Organizer.Core.Models.Entities;
 using Organizer.Data.Specifications;
 using Organizer.Infrastructure.Command;
+using Organizer.UI.Events;
 using Organizer.UI.Service;
 using Organizer.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -36,6 +38,28 @@ namespace Organizer.UI.ViewModel
 
             AddFriendCommand = new RelayCommand(OnAddFriendExecute, OnAddFiendCanExecute);
             RemoveFriendCommand = new RelayCommand(OnRemoveFriendExecute, OnRemoveFriendCanExecute);
+
+            eventAggregator.Subscribe<AfterDetailSavedEventArgs>(AfterDetailSaved);
+            eventAggregator.Subscribe<AfterDetailDeletedEventArgs>(AfterDetailDeleted);
+        }
+
+        private async void AfterDetailDeleted(AfterDetailDeletedEventArgs eventargs)
+        {
+            if (eventargs.ViewModelName == nameof(FriendDetailViewModel))
+            {               
+                _allFriends = await _friendDataService.GetAllAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersAndMeetingsSpecification());
+                SetupPicklist();
+            }
+        }
+
+        private async void AfterDetailSaved(AfterDetailSavedEventArgs eventargs)
+        {
+            if (eventargs.ViewModelName == nameof(FriendDetailViewModel))
+            {
+                await _friendDataService.ReloadFriendAsync(eventargs.Id);        
+                _allFriends = await _friendDataService.GetAllAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersAndMeetingsSpecification());
+                SetupPicklist();
+            }
         }
 
         public ObservableCollection<Friend> AddedFriends { get; }
@@ -77,12 +101,12 @@ namespace Organizer.UI.ViewModel
             }
         }
 
-        public override async Task LoadAsync(int? id)
+        public override async Task LoadAsync(int id)
         {
-            var meeting = id.HasValue ? await _meetingDataService.GetEntityWithSpecificationAsync(new MeetingsIncludeFriendsSpecification(id)) : CreateNewMeeting();
-           
-            Id = meeting.Id;
-           
+            var meeting = id > 0 ? await _meetingDataService.GetEntityWithSpecificationAsync(new MeetingsIncludeFriendsSpecification(id)) : CreateNewMeeting();
+
+            Id = id;
+
             InitializeMeeting(meeting);
 
             _allFriends = await _friendDataService.GetAllAsync(new FriendsOrderedByFirstNameIncludePhoneNumbersAndMeetingsSpecification());
@@ -145,7 +169,7 @@ namespace Organizer.UI.ViewModel
                 {
                     ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
-                if(e.PropertyName == nameof(Meeting.Title))
+                if (e.PropertyName == nameof(Meeting.Title))
                 {
                     SetTitle();
                 }
@@ -160,7 +184,7 @@ namespace Organizer.UI.ViewModel
 
         private void SetTitle()
         {
-           Title = Meeting.Title;
+            Title = Meeting.Title;
         }
 
         private Meeting CreateNewMeeting()

@@ -7,7 +7,7 @@ namespace Organizer.Infrastructure.Data
     {
         public OrganizerContext()
         {
-            Database.MigrateAsync();           
+            Database.MigrateAsync();                
         }
 
         public DbSet<Friend> Friends { get; set; }

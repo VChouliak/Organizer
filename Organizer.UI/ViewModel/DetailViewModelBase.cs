@@ -70,7 +70,7 @@ namespace Organizer.UI.ViewModel
             }
         }
 
-        public abstract Task LoadAsync(int? id);
+        public abstract Task LoadAsync(int id);
         public ICommand SaveCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand CloseDetailViewCommand { get; private set; }
@@ -89,7 +89,7 @@ namespace Organizer.UI.ViewModel
             EventAggregator.Publish<AfterDetailDeletedEventArgs>(new()
             {
                 Id = modelId,
-                ViewModel = this.GetType().Name
+                ViewModelName = this.GetType().Name
             });
         }
 
@@ -99,7 +99,7 @@ namespace Organizer.UI.ViewModel
             {
                 Id = modelId,
                 DisplayMember = displayMember,
-                ViewModel = this.GetType().Name
+                ViewModelName = this.GetType().Name
             });
         }
     }

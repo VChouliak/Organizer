@@ -59,7 +59,7 @@ namespace Organizer.UI.ViewModel
         public ObservableCollection<NavigationItemViewModel> Meetings { get; }
         private void AfterDetailSaved(AfterDetailSavedEventArgs eventargs)
         {
-            switch (eventargs.ViewModel)
+            switch (eventargs.ViewModelName)
             {
                 case nameof(FriendDetailViewModel):
                     AfterDetailSaved(Friends, eventargs);
@@ -75,7 +75,7 @@ namespace Organizer.UI.ViewModel
             var lookupItem = items.SingleOrDefault(f => f.Id == eventargs.Id);
             if (lookupItem == null)
             {
-                items.Add(new NavigationItemViewModel(eventargs.Id, eventargs.DisplayMember, eventargs.ViewModel, _eventAggregator));
+                items.Add(new NavigationItemViewModel(eventargs.Id, eventargs.DisplayMember, eventargs.ViewModelName, _eventAggregator));
             }
             else
             {
@@ -85,7 +85,7 @@ namespace Organizer.UI.ViewModel
 
         private void AfterDetailDeleted(AfterDetailDeletedEventArgs eventargs)
         {
-            switch (eventargs.ViewModel)
+            switch (eventargs.ViewModelName)
             {
                 case nameof(FriendDetailViewModel):
                     AfterDetailDeleted(Friends, eventargs);
