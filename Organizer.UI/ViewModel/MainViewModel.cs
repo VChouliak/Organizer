@@ -33,11 +33,13 @@ namespace Organizer.UI.ViewModel
 
             NavigationViewModel = navigationViewModel;
             CreateNewDetailCommand = new RelayCommand(OnCreateNewDetailExecute);
+            OpenSingleDetailViewCommand = new RelayCommand(OnOpenSingleDetailViewCommand);
 
             DetailViewModels = new ObservableCollection<IDetailViewModel>();
-        }
+        }   
 
         public ICommand CreateNewDetailCommand { get; }
+        public ICommand OpenSingleDetailViewCommand { get;}
 
         public INavigationViewModel NavigationViewModel { get; }
         public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
@@ -100,5 +102,9 @@ namespace Organizer.UI.ViewModel
             await OnOpenDetailViewAsync(new OpenDetailViewEventArgs { Id = nextNewItemId--, ViewModelName = ((Type)viewModelType).Name });
         }
 
+        private async void OnOpenSingleDetailViewCommand(object viewModelType)
+        {
+            await OnOpenDetailViewAsync(new OpenDetailViewEventArgs { Id = -1, ViewModelName = ((Type)viewModelType).Name }); //Magic Digit -1, is used as Id to open only one Tab in tabbed View 
+        }
     }
 }

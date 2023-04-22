@@ -5,8 +5,10 @@ using Organizer.Core.Models.Entities;
 using Organizer.Core.Models.Lookups;
 using Organizer.Data.Specifications;
 using Organizer.Infrastructure.Command;
+using Organizer.UI.Events;
 using Organizer.UI.Service;
 using Organizer.UI.Wrapper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -38,7 +40,9 @@ namespace Organizer.UI.ViewModel
 
             ProgrammingLanguages = new ObservableCollection<LookupItem>();
             PhoneNumbers = new ObservableCollection<FriendPhoneNumberWrapper>();
-        }
+
+            eventAggregator.Subscribe<AfterCollectionSavedEventArgs>(AfterCollectionSaved);
+        }       
 
         public override async Task LoadAsync(int id)
         {
@@ -82,6 +86,41 @@ namespace Organizer.UI.ViewModel
         public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
         public ObservableCollection<FriendPhoneNumberWrapper> PhoneNumbers { get; }
 
+       
+        protected override async void OnSaveExecute(object parameter)
+        {
+            await _friendDataService.SaveAllChangesAsync();
+            HasChanges = _friendDataService.HasChanges();
+            Id = Friend.Id;
+            RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
+        }
+
+        protected override bool OnSaveCanExecute(object parameter)
+        {
+            return Friend != null
+                && !Friend.HasErrors
+                && PhoneNumbers.All(p => !p.HasErrors)
+                && HasChanges;
+        }
+
+        protected override async void OnDeleteExecute(object obj)
+        {
+            if (Friend.Model.Meetings.Any())
+            {
+                MessageDialogService.ShowInfoDialog($"{Friend.FirstName} {Friend.LastName} can not be deleted, at this friend is part of at least one meeting");
+                return;
+            }
+
+            var dialogResult = MessageDialogService.ShowOkCancelDialog($"Do you really wont to delete Entry {Friend.FirstName} {Friend.LastName}", "Question");
+            if (dialogResult == MessageDialogResult.OK)
+            {
+                await _friendDataService.DeleteAsync(Friend.Model);
+                await _friendDataService.SaveAllChangesAsync();
+                RaiseDetailDeletedEvent(Friend.Id);
+            }
+
+        }
+
         private void InitializeFriendPhoneNumbers(ICollection<FriendPhoneNumber> phoneNumbers)
         {
             foreach (var wrapper in PhoneNumbers)
@@ -123,10 +162,10 @@ namespace Organizer.UI.ViewModel
                 {
                     ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
-                if(e.PropertyName == nameof(Friend.FirstName) || e.PropertyName == nameof(Friend.LastName))
+                if (e.PropertyName == nameof(Friend.FirstName) || e.PropertyName == nameof(Friend.LastName))
                 {
                     SetTitle();
-                }                
+                }
             };
             ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
             if (Friend.Id == 0)
@@ -183,38 +222,12 @@ namespace Organizer.UI.ViewModel
         {
             return _selectedPhoneNumber != null;
         }
-        protected override async void OnSaveExecute(object parameter)
+        private async void AfterCollectionSaved(AfterCollectionSavedEventArgs eventArgs)
         {
-            await _friendDataService.SaveAllChangesAsync();
-            HasChanges = _friendDataService.HasChanges();
-            Id = Friend.Id;
-            RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
-        }
-
-        protected override bool OnSaveCanExecute(object parameter)
-        {
-            return Friend != null
-                && !Friend.HasErrors
-                && PhoneNumbers.All(p => !p.HasErrors)
-                && HasChanges;
-        }
-
-        protected override async void OnDeleteExecute(object obj)
-        {
-            if (Friend.Model.Meetings.Any())
+            if (eventArgs.VieModelName == nameof(ProgrammingLanguageDetailViewModel))
             {
-                MessageDialogService.ShowInfoDialog($"{Friend.FirstName} {Friend.LastName} can not be deleted, at this friend is part of at least one meeting");
-                return;
+                await LoadProgrammingLanguagesLookupAsync();
             }
-
-            var dialogResult = MessageDialogService.ShowOkCancelDialog($"Do you really wont to delete Entry {Friend.FirstName} {Friend.LastName}", "Question");
-            if (dialogResult == MessageDialogResult.OK)
-            {
-                await _friendDataService.DeleteAsync(Friend.Model);
-                await _friendDataService.SaveAllChangesAsync();
-                RaiseDetailDeletedEvent(Friend.Id);
-            }
-
         }
 
     }

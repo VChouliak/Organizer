@@ -40,22 +40,7 @@ namespace Organizer.UI.ViewModel
             DeleteCommand = new RelayCommand(OnDeleteExecute);
             CloseDetailViewCommand = new RelayCommand(OnCloseDetailViewExecute);
         }
-
-        protected virtual void OnCloseDetailViewExecute(object obj)
-        {
-            if (HasChanges)
-            {
-                var result = MessageDialogService.ShowOkCancelDialog("Yout've made changes. Close this item ?", "Question");
-
-                if(result == MessageDialogResult.Cancel)
-                {
-                    return;
-                }
-            }
-           
-            EventAggregator.Publish<AfterDetailClosedEventArgs>(new() { Id = this.Id, ViewModelName = this.GetType().Name });
-        }
-
+       
         public bool HasChanges
         {
             get { return _hasChanges; }
@@ -80,6 +65,20 @@ namespace Organizer.UI.ViewModel
             protected set { _id = value; }
         }
 
+        protected virtual void OnCloseDetailViewExecute(object obj)
+        {
+            if (HasChanges)
+            {
+                var result = MessageDialogService.ShowOkCancelDialog("Yout've made changes. Close this item ?", "Question");
+
+                if (result == MessageDialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+
+            EventAggregator.Publish<AfterDetailClosedEventArgs>(new() { Id = this.Id, ViewModelName = this.GetType().Name });
+        }
         protected abstract void OnDeleteExecute(object obj);
         protected abstract bool OnSaveCanExecute(object obj);
         protected abstract void OnSaveExecute(object obj);
@@ -101,6 +100,11 @@ namespace Organizer.UI.ViewModel
                 DisplayMember = displayMember,
                 ViewModelName = this.GetType().Name
             });
+        }
+
+        protected virtual void RaiseCollectionSavedEvent()
+        {
+            EventAggregator.Publish<AfterCollectionSavedEventArgs>(new() { VieModelName = this.GetType().Name});
         }
     }
 }

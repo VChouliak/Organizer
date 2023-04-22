@@ -42,7 +42,8 @@ namespace Organizer.UI
                 var detailsViewModelsDictionary = new Dictionary<string, Func<IDetailViewModel>>
                     {
                         {typeof(FriendDetailViewModel).Name, () => new FriendDetailViewModel(friendsAsyncDataService, eventAggregator, messageDialogService, programmingLanguageAsyncLookupDataService)},
-                        {typeof(MeetingDetailViewModel).Name, () =>  new MeetingDetailViewModel(eventAggregator, messageDialogService, meetingAsyncDataService, friendsAsyncDataService)}
+                        {typeof(MeetingDetailViewModel).Name, () =>  new MeetingDetailViewModel(eventAggregator, messageDialogService, meetingAsyncDataService, friendsAsyncDataService)},
+                        {typeof(ProgrammingLanguageDetailViewModel).Name, () =>  new ProgrammingLanguageDetailViewModel(eventAggregator, messageDialogService,programmingLanguageAsyncDataService)}
                     };
                 return new MainViewModel(navigationViewModel, detailsViewModelsDictionary, eventAggregator, messageDialogService);               
             }           
