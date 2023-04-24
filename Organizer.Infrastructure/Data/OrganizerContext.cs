@@ -16,7 +16,7 @@ namespace Organizer.Infrastructure.Data
         public DbSet<Meeting> Meetings { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL(Settings.Organizer.Default.MySqlConnectionString);
+            optionsBuilder.UseMySql(Settings.Organizer.Default.MySqlConnectionString, ServerVersion.AutoDetect(Settings.Organizer.Default.MySqlConnectionString));
         }        
     }
 }

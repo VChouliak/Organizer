@@ -11,15 +11,15 @@ using Organizer.Infrastructure.Data;
 namespace Organizer.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OrganizerContext))]
-    [Migration("20230410230519_AddedMeeting")]
-    partial class AddedMeeting
+    [Migration("20230424173656_AddedVersionTofFriendEntity")]
+    partial class AddedVersionTofFriendEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("FriendMeeting", b =>
@@ -59,6 +59,11 @@ namespace Organizer.Infrastructure.Data.Migrations
 
                     b.Property<int?>("ProgrammingLanguageId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 

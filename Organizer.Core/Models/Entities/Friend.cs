@@ -21,6 +21,8 @@ namespace Organizer.Core.Models.Entities
         public string? Email { get; set; }      
         public int? ProgrammingLanguageId { get; set; }      
         public ProgrammingLanguage ProgrammingLanguage { get; set; }
+        [Timestamp]
+        public Guid Version { get; set; }
         public ICollection<FriendPhoneNumber> PhoneNumbers { get; set; }
         public ICollection<Meeting> Meetings { get; set; }
     }
