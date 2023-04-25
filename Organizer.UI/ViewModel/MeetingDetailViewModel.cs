@@ -136,7 +136,7 @@ namespace Organizer.UI.ViewModel
                 {
                     HasChanges = _friendDataService.HasChanges();
                     Id = Meeting.Id;
-                    RaiseDetailSavedEvent(Meeting.Id, $"²{Meeting.Title}");
+                    RaiseDetailSavedEvent(Meeting.Id, $"{Meeting.Title}");
                 });           
         }
 
