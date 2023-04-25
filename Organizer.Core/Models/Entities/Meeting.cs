@@ -1,9 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using Organizer.Core.Interfaces.Concurrency;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Organizer.Core.Models.Entities
 {
-    public class Meeting : BaseModel
+    public class Meeting : BaseModel, IVersionedRow
     {
         public Meeting()
         {
@@ -16,5 +17,6 @@ namespace Organizer.Core.Models.Entities
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
         public ICollection<Friend> Friends{ get; set; }
+        public Guid Version { get; set; }
     }
 }

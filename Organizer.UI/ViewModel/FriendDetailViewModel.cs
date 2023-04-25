@@ -20,9 +20,9 @@ namespace Organizer.UI.ViewModel
 {
     public class FriendDetailViewModel : DetailViewModelBase, IDetailViewModel
     {
-        private IFriendsAsyncDataService _friendDataService;       
+        private IFriendsAsyncDataService _friendDataService;
         private readonly IAsyncLookupService<LookupItem> _propgrammingLanguageLookupService;
-        private FriendWrapper _friend;     
+        private FriendWrapper _friend;
         private FriendPhoneNumberWrapper _selectedPhoneNumber;
 
         public FriendDetailViewModel(
@@ -32,7 +32,7 @@ namespace Organizer.UI.ViewModel
             IAsyncLookupService<LookupItem> propgrammingLanguageLookupService)
             : base(eventAggregator, messageDialogService)
         {
-            _friendDataService = friendsDataService;           
+            _friendDataService = friendsDataService;
             _propgrammingLanguageLookupService = propgrammingLanguageLookupService;
 
             AddPhoneNumberCommand = new RelayCommand(OnAddPhoneNumberExecute);
@@ -42,7 +42,7 @@ namespace Organizer.UI.ViewModel
             PhoneNumbers = new ObservableCollection<FriendPhoneNumberWrapper>();
 
             eventAggregator.Subscribe<AfterCollectionSavedEventArgs>(AfterCollectionSaved);
-        }       
+        }
 
         public override async Task LoadAsync(int id)
         {
@@ -50,7 +50,7 @@ namespace Organizer.UI.ViewModel
             Id = id;
             InitializeFriend(friend);
             if (friend != null)
-            {               
+            {
                 InitializeFriendPhoneNumbers(friend.PhoneNumbers);
             }
             await LoadProgrammingLanguagesLookupAsync();
@@ -86,13 +86,17 @@ namespace Organizer.UI.ViewModel
         public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
         public ObservableCollection<FriendPhoneNumberWrapper> PhoneNumbers { get; }
 
-       
+
         protected override async void OnSaveExecute(object parameter)
         {
-            await _friendDataService.SaveAllChangesAsync();
-            HasChanges = _friendDataService.HasChanges();
-            Id = Friend.Id;
-            RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
+            await SaveWithOptimisticConcurrencyAsync(_friendDataService.SaveAllChangesAsync,
+                () =>
+                {
+                    HasChanges = _friendDataService.HasChanges();
+                    Id = Friend.Id;
+                    RaiseDetailSavedEvent(Friend.Id, $"{Friend.FirstName} {Friend.LastName}");
+                });
+
         }
 
         protected override bool OnSaveCanExecute(object parameter)

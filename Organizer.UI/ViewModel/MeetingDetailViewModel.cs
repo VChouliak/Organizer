@@ -131,10 +131,13 @@ namespace Organizer.UI.ViewModel
 
         protected override async void OnSaveExecute(object obj)
         {
-            await _meetingDataService.SaveAllChangesAsync();
-            HasChanges = _meetingDataService.HasChanges();
-            Id = Meeting.Id;
-            RaiseDetailSavedEvent(Meeting.Id, Meeting.Title);
+            await SaveWithOptimisticConcurrencyAsync(_meetingDataService.SaveAllChangesAsync,
+                () =>
+                {
+                    HasChanges = _friendDataService.HasChanges();
+                    Id = Meeting.Id;
+                    RaiseDetailSavedEvent(Meeting.Id, $"²{Meeting.Title}");
+                });           
         }
 
         private void SetupPicklist()

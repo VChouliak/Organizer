@@ -11,8 +11,8 @@ using Organizer.Infrastructure.Data;
 namespace Organizer.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OrganizerContext))]
-    [Migration("20230424173656_AddedVersionTofFriendEntity")]
-    partial class AddedVersionTofFriendEntity
+    [Migration("20230425104402_AddedVersionedRowToEntities")]
+    partial class AddedVersionedRowToEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,8 +62,9 @@ namespace Organizer.Infrastructure.Data.Migrations
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("char(36)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"));
 
                     b.HasKey("Id");
 
@@ -109,6 +110,12 @@ namespace Organizer.Infrastructure.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"));
+
                     b.HasKey("Id");
 
                     b.ToTable("Meetings");
@@ -124,6 +131,12 @@ namespace Organizer.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"));
 
                     b.HasKey("Id");
 

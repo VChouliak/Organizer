@@ -88,13 +88,15 @@ namespace Organizer.UI.ViewModel
         {
             try
             {
-                await _dataService.SaveAllChangesAsync();
-                HasChanges = _dataService.HasChanges();
-                RaiseCollectionSavedEvent();
+                await SaveWithOptimisticConcurrencyAsync(_dataService.SaveAllChangesAsync,
+                () =>
+                {
+                    HasChanges = _dataService.HasChanges();
+                    RaiseCollectionSavedEvent();
+                });                              
             }
             catch (Exception ex)
             {
-
                 while(ex.InnerException != null)
                 {
                     ex = ex.InnerException;
