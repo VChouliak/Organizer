@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.UI", "Organizer.UI\Organizer.UI.csproj", "{F143F6A6-470D-4FF5-8F90-58EBBD242274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.UI", "Organizer.UI\Organizer.UI.csproj", "{F143F6A6-470D-4FF5-8F90-58EBBD242274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.Data", "Organizer.Data\Organizer.Data.csproj", "{CE40B7F9-EF7B-48BB-A4D1-00E891B221B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.Data", "Organizer.Data\Organizer.Data.csproj", "{CE40B7F9-EF7B-48BB-A4D1-00E891B221B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.Core", "Organizer.Core\Organizer.Core.csproj", "{C3498F59-7B5B-40CF-87E4-5E19850C1E02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.Core", "Organizer.Core\Organizer.Core.csproj", "{C3498F59-7B5B-40CF-87E4-5E19850C1E02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.Settings", "Organizer.Settings\Organizer.Settings.csproj", "{C7FE3A19-1457-4963-A857-D3098EB07CBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.Settings", "Organizer.Settings\Organizer.Settings.csproj", "{C7FE3A19-1457-4963-A857-D3098EB07CBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizer.Service", "Organizer.Service\Organizer.Service.csproj", "{9152E512-7293-44B4-9D71-CCC406C4AAFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.Infrastructure", "Organizer.Infrastructure\Organizer.Infrastructure.csproj", "{0441B342-14B0-4950-8576-AAB898029602}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{C7FE3A19-1457-4963-A857-D3098EB07CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7FE3A19-1457-4963-A857-D3098EB07CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7FE3A19-1457-4963-A857-D3098EB07CBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9152E512-7293-44B4-9D71-CCC406C4AAFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9152E512-7293-44B4-9D71-CCC406C4AAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9152E512-7293-44B4-9D71-CCC406C4AAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9152E512-7293-44B4-9D71-CCC406C4AAFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0441B342-14B0-4950-8576-AAB898029602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0441B342-14B0-4950-8576-AAB898029602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0441B342-14B0-4950-8576-AAB898029602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0441B342-14B0-4950-8576-AAB898029602}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

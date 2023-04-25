@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI"
+        xmlns:view="clr-namespace:Organizer.UI.View"
+        xmlns:viewModel="clr-namespace:Organizer.UI.ViewModel"
         mc:Ignorable="d"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"         
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -13,10 +15,65 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignLightBackground}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MainWindow" Height="450" Width="800">
+        FontSize="20"
+        Title="MainWindow" Height="750" Width="1000">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:FriendDetailViewModel}">
+            <view:FriendDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:MeetingDetailViewModel}">
+            <view:MeetingDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ProgrammingLanguageDetailViewModel}">
+            <view:ProgrammingLanguageDetailView/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        <materialDesign:Card Padding="32" Margin="16">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">My First Material Design App</TextBlock>
-        </materialDesign:Card>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.ColumnSpan="2" FontSize="20">
+            <MenuItem Header="Create">
+                <MenuItem Header="New Friend" Command="{Binding CreateNewDetailCommand}"
+                          CommandParameter="{x:Type viewModel:FriendDetailViewModel}"/>
+                <MenuItem Header="New Meeting" Command="{Binding CreateNewDetailCommand}"
+                          CommandParameter="{x:Type viewModel:MeetingDetailViewModel}"/>
+                
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Programming Languages"
+                          Command="{Binding OpenSingleDetailViewCommand}"
+                          CommandParameter="{x:Type viewModel:ProgrammingLanguageDetailViewModel}"/>
+            </MenuItem>
+        </Menu>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="1" HorizontalAlignment="Left"/>
+        <TabControl Grid.Column="1" 
+                    ItemsSource="{Binding DetailViewModels}" 
+                    SelectedItem="{Binding SelectedDetailViewModel, Mode=TwoWay}"
+                    Grid.Row="1">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <TextBlock Text="*" Visibility="{Binding HasChanges, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                        <Button Command="{Binding CloseDetailViewCommand}"
+                                VerticalContentAlignment="Top"
+                                Content="X"
+                                FontSize="10"                                                              
+                                Padding="5 0"
+                                Margin="5 0 10 10"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            
+        </TabControl>
+        <Grid>
+
+        </Grid>
     </Grid>
 </Window>

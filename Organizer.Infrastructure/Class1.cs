@@ -1,4 +1,4 @@
-﻿namespace Organizer.Data
+﻿namespace Organizer.Infrastructure
 {
     public class Class1
     {

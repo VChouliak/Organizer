@@ -1,4 +1,4 @@
-﻿namespace Organizer.Core
+﻿namespace Organizer.Service
 {
     public class Class1
     {
